@@ -2,84 +2,135 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>Diamond – pseudo-shadow half-transparent</title>
+<title>otomi's icon</title>
 <style>
 :root{
-  --outer:500px;--rt2:1.414213562;--pad:.03;--gap:.03;
-  --sq:calc(var(--outer)/var(--rt2));
-  --top:#1b84bc;--shadow:#01118e;
+    --outer: 500px;
+    --rt2: 1.414213562;
+    --pad: .03;
+    --gap: .03;
+    --sq: calc(var(--outer)/var(--rt2));
+    --shadow: #01118e;
+    --main: #1b84bc;
 }
 
-/* 基本レイアウト */
-body{margin:0;min-height:100vh;display:flex;justify-content:center;align-items:center;}
-.wrapper{position:relative;}
+body{
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.wrapper{
+    position: relative;
+}
 
 /* 共通菱形 */
 .diamond{
-  width:var(--sq);height:var(--sq);
-  padding:calc(var(--sq)*var(--pad));
-  box-sizing:border-box;
-  background:transparent;
-  transform:rotate(135deg);display:
-  flex;flex-direction:column;
-  gap:calc(var(--sq)*var(--gap));
+    width: var(--sq);
+    height: var(--sq);
+    padding: calc(var(--sq)*var(--pad));
+    box-sizing: border-box;
+    background: transparent;
+    transform: rotate(135deg);
+    display: flex;
+    flex-direction: column;
+    gap:calc(var(--sq)*var(--gap));
+    --clr:var(--main);
 }
 
-/* --- 下層 ─ 擬似影 -------------------------------- */
+/* ▼ 下層（影） */
 .diamond--shadow{
-  position:absolute;top:0;left:0;
-  transform:rotate(135deg) translate(14px, -14px);
-  z-index:0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: rotate(135deg) translate(14px,-14px);
+  z-index: 0;
+  --clr: var(--shadow);
 }
-.diamond--shadow .rect,
-.diamond--shadow .rect *{
-  background:var(--shadow)!important;border-color:var(--shadow)!important;
+
+.diamond--main{opacity:.7;}
+
+.rect{
+    flex: 1;
+    width: 100%;
+    border-radius: 6px;
+    box-sizing: border-box;
 }
 
-/* --- 上層 ─ 本体（半透明） ------------------------ */
-.diamond--main{opacity: 0.7;;}   /* ここで“すべて”半透明にする */
-
-/* 汎用ブロック */
-.rect{flex:1;width:100%;border-radius:6px;box-sizing:border-box;}
-
-/* 1段目 */
+/* first row */
 .rect--one{display:flex;gap:calc(var(--sq)*var(--gap));}
-.rect--one__small{flex:1;background:var(--top);border-radius:4px;}
-.rect--one__large{flex:2;background:var(--top);border-radius:4px;}
+.rect--one__small{flex:1;background:var(--clr);border-radius:4px;}
+.rect--one__large{flex:2;background:var(--clr);border-radius:4px;}
 
-/* 2段目 */
-.rect--two{display:flex;gap:calc(var(--sq)*var(--gap));}
-.rect--two__part{flex:1;border-radius:4px;background:var(--top);}
-.rect--two__part:nth-child(2){position:relative;background:none;}
-.rect--two__part:nth-child(2)::after{
-  content:'';position:absolute;inset:0;
-  border:calc(var(--sq)*0.08) solid var(--top);
-  border-radius:inherit;pointer-events:none;box-sizing:border-box;
+/* second row */
+.rect--two{
+    display: flex;
+    gap: calc(var(--sq)*var(--gap));
 }
-.rect--two__part:nth-child(3){background:var(--top);}
+.rect--two__part{
+    flex: 1;
+    border-radius: 4px;
+    background: var(--clr);
+}
+.rect--two__part:nth-child(2){
+    position: relative;
+    background: none;
+}
+.rect--two__part:nth-child(2)::after{
+    content:'';
+    position: absolute;
+    inset:0;
+    border-style: solid;
+    border-color: var(--clr);
+    border-width: 42px 20px 42px 20px;
+    border-radius: inherit;
+    box-sizing: border-box;
+    border-radius: inherit;
+    pointer-events: none;
+    box-sizing: border-box;
+}
+.rect--two__part:nth-child(3){background:var(--clr);}
 
-/* 3段目 */
-.rect--three{background:transparent;border:calc(var(--sq)*0.08) solid var(--top);}
+/* third row */
+.rect--three{
+    background: none;
+    position: relative;
+}
+
+.rect--three::after{
+    content: '';
+    position: absolute;
+    inset:0;
+    pointer-events: none;
+    border-style: solid;
+    border-color: var(--clr);
+    border-width: 42px 20px 42px 20px;
+    border-radius: inherit;
+    box-sizing: border-box;
+}
 </style>
 </head>
 <body>
 
 <div class="wrapper">
-  <!-- 下層（影色） -->
   <div class="diamond diamond--shadow">
     <div class="rect rect--one">
-      <div class="rect--one__small"></div><div class="rect--one__large"></div>
+      <div class="rect--one__small"></div>
+      <div class="rect--one__large"></div>
     </div>
     <div class="rect rect--two">
+      <div class="rect--two__part"></div>
+      <div class="rect--two__part"></div>
       <div class="rect--two__part"></div>
     </div>
     <div class="rect rect--three"></div>
   </div>
 
-  <!-- 上層（半透明） -->
   <div class="diamond diamond--main">
     <div class="rect rect--one">
-      <div class="rect--one__small"></div><div class="rect--one__large"></div>
+      <div class="rect--one__small"></div>
+      <div class="rect--one__large"></div>
     </div>
     <div class="rect rect--two">
       <div class="rect--two__part"></div>
