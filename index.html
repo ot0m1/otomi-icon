@@ -43,27 +43,27 @@ body{
 
 /* ───────── 個別クラス ───────── */
 .rect--one{
-  background:none;             /* 背景は子要素で付ける */
+  background:none;
   display:flex;
-  flex-direction:row;       /* 上下に並べる */
+  flex-direction:row;
   gap:calc(var(--sq) * var(--gap));
 }
 
-.rect--one__small{ flex:1; background:#1b84bc; border-radius:4px; } /* 1  */
-.rect--one__large{ flex:2; background:#1b84bc; border-radius:4px; } /* 2  */
+.rect--one__small{ flex:1; background:#1b84bc; border-radius:4px; }
+.rect--one__large{ flex:2; background:#1b84bc; border-radius:4px; }
 
 /* ▼ 中段を 3 分割
    --------------------------------------------------------- */
 .rect--two{
-  background:none;                      /* 親は透明 */
+  background:none;
   display:flex;
-  flex-direction:row;                /* 縦に 3 枚並べる */
-  gap:calc(var(--sq) * var(--gap));     /* 内部ギャップも同じ割合で */
+  flex-direction:row;
+  gap:calc(var(--sq) * var(--gap));
 }
 .rect--two__part{
   flex:1;
   border-radius:4px;
-  background:#1b84bc;                 /* ベース色 */
+  background:#1b84bc;
 }
 .rect--two__part:nth-child(2){
     position:relative;
@@ -78,7 +78,6 @@ body{
   box-sizing: border-box;                 /* 念のため              */
 }
 
-/* 視認しやすいよう明度だけ変えておく（後で自由に変更可） */
 .rect--two__part:nth-child(2){ background:none; }
 .rect--two__part:nth-child(3){ background:#1b84bc; }
 
