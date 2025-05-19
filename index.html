@@ -2,16 +2,15 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>Diamond with 3 Rectangles</title>
+<title>Diamond – .rect--two split into 3</title>
 <style>
 /* ==== 変数 ==== */
 :root{
-  --outer : 500px;          /* 外接（菱形全体）を常に 500×500px */
-  --rt2   : 1.414213562;    /* √2  */
-  --pad   : .03;            /* 内側余白 8 % */
-  --gap   : .03;            /* 3 つの長方形間のギャップ 4 % */
-  --sq    : calc(var(--outer) / var(--rt2));                /* 回転前の正方形一辺 */
-  --inset : calc(var(--sq) * (1 - 2*var(--pad)));           /* パディング後の内寸 */
+  --outer : 500px;          /* 外接（菱形全体）500×500px */
+  --rt2   : 1.414213562;    /* √2 */
+  --pad   : .03;            /* 内側余白 3 % */
+  --gap   : .03;            /* 長方形間ギャップ 3 % */
+  --sq    : calc(var(--outer) / var(--rt2));
 }
 
 /* ==== レイアウト用 ==== */
@@ -25,47 +24,84 @@ body{
   width : var(--sq);
   height: var(--sq);
   padding: calc(var(--sq) * var(--pad));
-  box-sizing:border-box;               /* padding を含めても外形は不変 */
+  box-sizing:border-box;
   /* background:#3498db; */
-  border: 1px black solid;
+  /* background:#fff; */
+  background: transparent;
   transform:rotate(135deg);
   display:flex; flex-direction:column;
-  gap:calc(var(--sq) * var(--gap));    /* 長方形同士の隙間 */
+  gap:calc(var(--sq) * var(--gap));
 }
 
-/* ==== 長方形 3 枚 ==== */
+/* ==== 長方形 3 枚（共通） ==== */
 .rect{
-  flex:1;                              /* 3 枚で等分 */
+  flex:1;
   width:100%;
   border-radius:6px;
-  background:#ffffff55;                /* 仮の色・透過で重なりが分かりやすい */
+  box-sizing:border-box;
 }
 
-/* ==== 個別クラス ==== */
-/* 1つ目: “o” に見えるよう太線＋円形 */
+/* ───────── 個別クラス ───────── */
+.rect--one{
+  background:none;             /* 背景は子要素で付ける */
+  display:flex;
+  flex-direction:row;       /* 上下に並べる */
+  gap:calc(var(--sq) * var(--gap));
+}
+
+.rect--one__small{ flex:1; background:#1b84bc; border-radius:4px; } /* 1  */
+.rect--one__large{ flex:2; background:#1b84bc; border-radius:4px; } /* 2  */
+
+/* ▼ 中段を 3 分割
+   --------------------------------------------------------- */
+.rect--two{
+  background:none;                      /* 親は透明 */
+  display:flex;
+  flex-direction:row;                /* 縦に 3 枚並べる */
+  gap:calc(var(--sq) * var(--gap));     /* 内部ギャップも同じ割合で */
+}
+.rect--two__part{
+  flex:1;
+  border-radius:4px;
+  background:#1b84bc;                 /* ベース色 */
+}
+.rect--two__part:nth-child(2){
+    position:relative;
+}
+.rect--two__part:nth-child(2)::after{     /* 枠そのもの (レイアウト非影響) */
+  content: '';
+  position: absolute;
+  inset: 0;                               /* 親の内側ピッタリ     */
+  border: calc(var(--sq) * 0.08) solid #1b84bc;  /* 好きな太さ / 色 */
+  border-radius: inherit;                 /* 角丸を親と揃える     */
+  pointer-events: none;                   /* クリック等を透過     */
+  box-sizing: border-box;                 /* 念のため              */
+}
+
+/* 視認しやすいよう明度だけ変えておく（後で自由に変更可） */
+.rect--two__part:nth-child(2){ background:none; }
+.rect--two__part:nth-child(3){ background:#1b84bc; }
+
 .rect--three{
-  /* 背景は透明にし、太い境界線のみでリング状に */
   background:transparent;
-  border:calc(var(--sq) * 0.07) solid rgba(231,76,60,0.4);
-  border-radius:6px;                          /* 丸くして “o” の輪郭 */
-    box-shadow:
-    calc(var(--sq) * 0.02)   /* X オフセット */
-    calc(var(--sq) * 0.02)   /* Y オフセット */
-    calc(var(--sq) * 0.05)   /* ブラー半径   */
-    rgba(0,0,0,0.35);        /* 影色・濃さ    */
+  border:calc(var(--sq) * 0.08) solid #1b84bc;
 }
-
-/* 個別にいじりやすいようクラスを分けておく */
-.rect--one   { background:#e74c3cAA; } /* ←後で自由に変更 */
-.rect--two   { background:#2ecc71AA; }
-.rect--three { background:#f1c40fAA; }
 </style>
 </head>
 <body>
 
   <div class="diamond">
-    <div class="rect rect--one"></div>
-    <div class="rect rect--two"></div>
+    <div class="rect rect--one">
+        <div class="rect--one__small"></div>
+        <div class="rect--one__large"></div>
+    </div>
+
+    <div class="rect rect--two">
+      <div class="rect--two__part"></div>
+      <div class="rect--two__part"></div>
+      <div class="rect--two__part"></div>
+    </div>
+
     <div class="rect rect--three"></div>
   </div>
 
