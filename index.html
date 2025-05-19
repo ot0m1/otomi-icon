@@ -2,107 +2,144 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>Diamond – .rect--two split into 3</title>
+<title>otomi's icon</title>
 <style>
-/* ==== 変数 ==== */
 :root{
-  --outer : 500px;          /* 外接（菱形全体）500×500px */
-  --rt2   : 1.414213562;    /* √2 */
-  --pad   : .03;            /* 内側余白 3 % */
-  --gap   : .03;            /* 長方形間ギャップ 3 % */
-  --sq    : calc(var(--outer) / var(--rt2));
+    --outer: 500px;
+    --rt2: 1.414213562;
+    --pad: .03;
+    --gap: .03;
+    --sq: calc(var(--outer)/var(--rt2));
+    --shadow: #01118e;
+    --main: #1b84bc;
 }
 
-/* ==== レイアウト用 ==== */
 body{
-  margin:0; min-height:100vh;
-  display:flex; justify-content:center; align-items:center;
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.wrapper{
+    position: relative;
 }
 
-/* ==== 菱形本体 ==== */
+/* 共通菱形 */
 .diamond{
-  width : var(--sq);
-  height: var(--sq);
-  padding: calc(var(--sq) * var(--pad));
-  box-sizing:border-box;
-  /* background:#3498db; */
-  /* background:#fff; */
-  background: transparent;
-  transform:rotate(135deg);
-  display:flex; flex-direction:column;
-  gap:calc(var(--sq) * var(--gap));
+    width: var(--sq);
+    height: var(--sq);
+    padding: calc(var(--sq)*var(--pad));
+    box-sizing: border-box;
+    background: transparent;
+    transform: rotate(135deg);
+    display: flex;
+    flex-direction: column;
+    gap:calc(var(--sq)*var(--gap));
+    --clr:var(--main);
 }
 
-/* ==== 長方形 3 枚（共通） ==== */
+/* ▼ 下層（影） */
+.diamond--shadow{
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: rotate(135deg) translate(14px,-14px);
+  z-index: 0;
+  --clr: var(--shadow);
+}
+
+.diamond--main{opacity:.7;}
+
 .rect{
-  flex:1;
-  width:100%;
-  border-radius:6px;
-  box-sizing:border-box;
+    flex: 1;
+    width: 100%;
+    border-radius: 6px;
+    box-sizing: border-box;
 }
 
-/* ───────── 個別クラス ───────── */
-.rect--one{
-  background:none;
-  display:flex;
-  flex-direction:row;
-  gap:calc(var(--sq) * var(--gap));
-}
+/* first row */
+.rect--one{display:flex;gap:calc(var(--sq)*var(--gap));}
+.rect--one__small{flex:1;background:var(--clr);border-radius:4px;}
+.rect--one__large{flex:2;background:var(--clr);border-radius:4px;}
 
-.rect--one__small{ flex:1; background:#1b84bc; border-radius:4px; }
-.rect--one__large{ flex:2; background:#1b84bc; border-radius:4px; }
-
-/* ▼ 中段を 3 分割
-   --------------------------------------------------------- */
+/* second row */
 .rect--two{
-  background:none;
-  display:flex;
-  flex-direction:row;
-  gap:calc(var(--sq) * var(--gap));
+    display: flex;
+    gap: calc(var(--sq)*var(--gap));
 }
 .rect--two__part{
-  flex:1;
-  border-radius:4px;
-  background:#1b84bc;
+    flex: 1;
+    border-radius: 4px;
+    background: var(--clr);
 }
 .rect--two__part:nth-child(2){
-    position:relative;
+    position: relative;
+    background: none;
 }
-.rect--two__part:nth-child(2)::after{     /* 枠そのもの (レイアウト非影響) */
-  content: '';
-  position: absolute;
-  inset: 0;                               /* 親の内側ピッタリ     */
-  border: calc(var(--sq) * 0.08) solid #1b84bc;  /* 好きな太さ / 色 */
-  border-radius: inherit;                 /* 角丸を親と揃える     */
-  pointer-events: none;                   /* クリック等を透過     */
-  box-sizing: border-box;                 /* 念のため              */
+.rect--two__part:nth-child(2)::after{
+    content:'';
+    position: absolute;
+    inset:0;
+    border-style: solid;
+    border-color: var(--clr);
+    border-width: 42px 20px 42px 20px;
+    border-radius: inherit;
+    box-sizing: border-box;
+    border-radius: inherit;
+    pointer-events: none;
+    box-sizing: border-box;
 }
+.rect--two__part:nth-child(3){background:var(--clr);}
 
-.rect--two__part:nth-child(2){ background:none; }
-.rect--two__part:nth-child(3){ background:#01118e; }
-
+/* third row */
 .rect--three{
-  background:transparent;
-  border:calc(var(--sq) * 0.08) solid #1b84bc;
+    background: none;
+    position: relative;
+}
+
+.rect--three::after{
+    content: '';
+    position: absolute;
+    inset:0;
+    pointer-events: none;
+    border-style: solid;
+    border-color: var(--clr);
+    border-width: 42px 20px 42px 20px;
+    border-radius: inherit;
+    box-sizing: border-box;
 }
 </style>
 </head>
 <body>
 
-  <div class="diamond">
+<div class="wrapper">
+  <div class="diamond diamond--shadow">
     <div class="rect rect--one">
-        <div class="rect--one__small"></div>
-        <div class="rect--one__large"></div>
+      <div class="rect--one__small"></div>
+      <div class="rect--one__large"></div>
     </div>
-
     <div class="rect rect--two">
       <div class="rect--two__part"></div>
       <div class="rect--two__part"></div>
       <div class="rect--two__part"></div>
     </div>
-
     <div class="rect rect--three"></div>
   </div>
+
+  <div class="diamond diamond--main">
+    <div class="rect rect--one">
+      <div class="rect--one__small"></div>
+      <div class="rect--one__large"></div>
+    </div>
+    <div class="rect rect--two">
+      <div class="rect--two__part"></div>
+      <div class="rect--two__part"></div>
+      <div class="rect--two__part"></div>
+    </div>
+    <div class="rect rect--three"></div>
+  </div>
+</div>
 
 </body>
 </html>
